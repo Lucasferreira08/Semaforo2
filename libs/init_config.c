@@ -55,9 +55,19 @@ void pwm_init_config()
     pwm_set_gpio_level(BUZZER_PIN, 0);
 }
 
-// gpio_init(LED_GREEN);
-    // gpio_set_dir(LED_GREEN, GPIO_OUT);
-    // gpio_init(LED_BLUE);
-    // gpio_set_dir(LED_BLUE, GPIO_OUT);
-    // gpio_init(LED_RED);
-    // gpio_set_dir(LED_RED, GPIO_OUT);
+void button_init()
+{
+    gpio_init(BUTTON_A);
+    gpio_set_dir(BUTTON_A, GPIO_IN);
+    gpio_pull_up(BUTTON_A);
+}
+
+void leds_init()
+{
+    gpio_init(LED_GREEN);
+    gpio_set_dir(LED_GREEN, GPIO_OUT);
+    gpio_init(LED_BLUE);
+    gpio_set_dir(LED_BLUE, GPIO_OUT);
+    gpio_init(LED_RED);
+    gpio_set_dir(LED_RED, GPIO_OUT);
+}
