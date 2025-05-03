@@ -1,5 +1,16 @@
 #include "init_config.h"
 
+//#include <stdbool.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <math.h>
+//#include "pico/stdlib.h"
+//#include "hardware/clocks.h"
+//#include "pico/bootrom.h"
+#include "pio_matrix.pio.h"
+// #include "hardware/pio.h"
+#include "hardware/pwm.h"
+
 uint pio_init(PIO pio)
 {
     set_sys_clock_khz(128000, false); // Configura o clock do sistema para 128 MHz
@@ -29,6 +40,19 @@ void display_init(ssd1306_t *ssd)
     // Limpa o display. O display inicia com todos os pixels apagados.
     ssd1306_fill(ssd, false);
     ssd1306_send_data(ssd);
+}
+
+void pwm_init_config() 
+{
+    gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM);
+
+    uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
+
+    pwm_config config = pwm_get_default_config();
+    pwm_config_set_clkdiv(&config, clock_get_hz(clk_sys) / (BUZZER_FREQUENCY * 4096)); // Divisor de clock
+    pwm_init(slice_num, &config, true);
+
+    pwm_set_gpio_level(BUZZER_PIN, 0);
 }
 
 // gpio_init(LED_GREEN);

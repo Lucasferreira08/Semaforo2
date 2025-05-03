@@ -84,75 +84,77 @@ void vTrafficLightTask()
         //     //vTaskDelay(pdMS_TO_TICKS(1000));
         // } else
 
-// void vBuzzerTask()
-// {
-//     gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM);
+void vBuzzerTask()
+{
+    // gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM);
 
-//     uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
+    // uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
 
-//     pwm_config config = pwm_get_default_config();
-//     pwm_config_set_clkdiv(&config, clock_get_hz(clk_sys) / (BUZZER_FREQUENCY * 4096)); // Divisor de clock
-//     pwm_init(slice_num, &config, true);
+    // pwm_config config = pwm_get_default_config();
+    // pwm_config_set_clkdiv(&config, clock_get_hz(clk_sys) / (BUZZER_FREQUENCY * 4096)); // Divisor de clock
+    // pwm_init(slice_num, &config, true);
 
-//     pwm_set_gpio_level(BUZZER_PIN, 0);
+    // pwm_set_gpio_level(BUZZER_PIN, 0);
 
-//     // uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
+    pwm_init_config();
 
-//     while (1)
-//     {
-//         if (nightMode) 
-//         {
-//             printf("Buzzer: night mode\n");
-//             pwm_set_gpio_level(BUZZER_PIN, 2048);
-//             //vTaskDelay(pdMS_TO_TICKS(200));  // 200ms ligado
-//             sleep_ms(200); 
-//             pwm_set_gpio_level(BUZZER_PIN, 0);
-//             //vTaskDelay(pdMS_TO_TICKS(1800)); // 1800ms desligado (total 2s)
-//             sleep_ms(1800); // Vermelho aceso por 5 segundos
-//         }
-//         else 
-//         {
-//             printf("Buzzer: day mode\n");
-//             if (estadoAtual==VERDE) 
-//             {
-//                 pwm_set_gpio_level(BUZZER_PIN, 2048);
-//                 //vTaskDelay(pdMS_TO_TICKS(200));  // 200ms ligado
-//                 sleep_ms(200); // Vermelho aceso por 5 segundos
-//                 pwm_set_gpio_level(BUZZER_PIN, 0);
-//                 //vTaskDelay(pdMS_TO_TICKS(1800)); // 1800ms desligado (total 2s)
-//                 sleep_ms(200); // Vermelho aceso por 5 segundos
-//             }
-//             else if (estadoAtual==AMARELO)
-//             {
-//                 for (int i = 0; i < 4; i++)  // 4 beeps rápidos
-//                 {
-//                     pwm_set_gpio_level(BUZZER_PIN, 2048);
-//                     //vTaskDelay(pdMS_TO_TICKS(100));  // 100ms ligado
-//                     sleep_ms(100); // Vermelho aceso por 5 segundos
-//                     pwm_set_gpio_level(BUZZER_PIN, 0);
-//                     //vTaskDelay(pdMS_TO_TICKS(100));  // 100ms desligado
-//                     sleep_ms(100); // Vermelho aceso por 5 segundos
-//                 }
-//                 //vTaskDelay(pdMS_TO_TICKS(600));  // Pausa no final (total 1200ms)
-//                 sleep_ms(600); // Vermelho aceso por 5 segundos
-//             }
-//             else if (estadoAtual==VERMELHO)
-//             {
-//                 pwm_set_gpio_level(BUZZER_PIN, 2048);
-//                 //vTaskDelay(pdMS_TO_TICKS(500));  // 500ms ligado
-//                 sleep_ms(500); // Vermelho aceso por 5 segundos
-//                 pwm_set_gpio_level(BUZZER_PIN, 0);
-//                 //vTaskDelay(pdMS_TO_TICKS(1500)); // 1.5s desligado
-//                 sleep_ms(1500); // Vermelho aceso por 5 segundos
-//             }
-//             else
-//             {
-//                 //vTaskDelay(pdMS_TO_TICKS(500));
-//                 sleep_ms(50); // Vermelho aceso por 5 segundos
-//             }
-//         }
-//     }
-// }
+    // uint slice_num = pwm_gpio_to_slice_num(BUZZER_PIN);
+
+    while (1)
+    {
+        if (get_dia_est()==NOITE) 
+        {
+            printf("Buzzer: night mode\n");
+            pwm_set_gpio_level(BUZZER_PIN, 2048);
+            vTaskDelay(pdMS_TO_TICKS(200));  // 200ms ligado
+            //sleep_ms(200); 
+            pwm_set_gpio_level(BUZZER_PIN, 0);
+            vTaskDelay(pdMS_TO_TICKS(1800)); // 1800ms desligado (total 2s)
+            //sleep_ms(1800); // Vermelho aceso por 5 segundos
+        }
+        else 
+        {
+            printf("Buzzer: day mode\n");
+            if (get_cor_sem()==VERDE) 
+            {
+                pwm_set_gpio_level(BUZZER_PIN, 2048);
+                vTaskDelay(pdMS_TO_TICKS(200));  // 200ms ligado
+                //sleep_ms(200); // Vermelho aceso por 5 segundos
+                pwm_set_gpio_level(BUZZER_PIN, 0);
+                vTaskDelay(pdMS_TO_TICKS(200)); // 1800ms desligado (total 2s)
+                //sleep_ms(200); // Vermelho aceso por 5 segundos
+            }
+            else if (get_cor_sem()==AMARELO)
+            {
+                for (int i = 0; i < 4; i++)  // 4 beeps rápidos
+                {
+                    pwm_set_gpio_level(BUZZER_PIN, 2048);
+                    vTaskDelay(pdMS_TO_TICKS(100));  // 100ms ligado
+                    //sleep_ms(100); // Vermelho aceso por 5 segundos
+                    pwm_set_gpio_level(BUZZER_PIN, 0);
+                    vTaskDelay(pdMS_TO_TICKS(100));  // 100ms desligado
+                    //sleep_ms(100); // Vermelho aceso por 5 segundos
+                }
+                vTaskDelay(pdMS_TO_TICKS(600));  // Pausa no final (total 1200ms)
+                //sleep_ms(600); // Vermelho aceso por 5 segundos
+            }
+            else if (get_cor_sem()==VERMELHO)
+            {
+                pwm_set_gpio_level(BUZZER_PIN, 2048);
+                vTaskDelay(pdMS_TO_TICKS(500));  // 500ms ligado
+                //sleep_ms(500); // Vermelho aceso por 5 segundos
+                pwm_set_gpio_level(BUZZER_PIN, 0);
+                vTaskDelay(pdMS_TO_TICKS(1500)); // 1.5s desligado
+                //sleep_ms(1500); // Vermelho aceso por 5 segundos
+            }
+            // else
+            // {
+            //     //vTaskDelay(pdMS_TO_TICKS(500));
+            //     sleep_ms(50); // Vermelho aceso por 5 segundos
+            // }
+        }
+    }
+}
 
 // // Tarefa para monitorar o botão A
 // void vButtonTask()
@@ -212,9 +214,9 @@ int main()
     
     // Criação das tarefas
     xTaskCreate(vTrafficLightTask, "Traffic Light Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
-    // xTaskCreate(vBuzzerTask, "Buzzer Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
-    // xTaskCreate(vButtonTask, "Button Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);  // Prioridade maior para melhor resposta
     xTaskCreate(vDisplayTask, "Display Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
+    xTaskCreate(vBuzzerTask, "Buzzer Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
+    // xTaskCreate(vButtonTask, "Button Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);  // Prioridade maior para melhor resposta
     
     // Inicia o escalonador
     vTaskStartScheduler();

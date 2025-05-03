@@ -3,10 +3,16 @@
 
 #define OUT_PIN 7
 
+#define BUZZER_PIN 21
+#define BUZZER_FREQUENCY 100
+
 #include "pio_matrix.pio.h"
 #include "ssd1306.h"
 
 uint pio_init(PIO pio);
+
 void display_init(ssd1306_t *ssd);
+
+void pwm_init_config();
 
 #endif
