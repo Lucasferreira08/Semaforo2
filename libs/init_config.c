@@ -1,14 +1,6 @@
 #include "init_config.h"
 
-//#include <stdbool.h>
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <math.h>
-//#include "pico/stdlib.h"
-//#include "hardware/clocks.h"
-//#include "pico/bootrom.h"
 #include "pio_matrix.pio.h"
-// #include "hardware/pio.h"
 #include "hardware/pwm.h"
 
 uint pio_init(PIO pio)
@@ -37,7 +29,6 @@ void display_init(ssd1306_t *ssd)
     ssd1306_config(ssd);                                         // Configura o display
     ssd1306_send_data(ssd);                                      // Envia os dados para o display
 
-    // Limpa o display. O display inicia com todos os pixels apagados.
     ssd1306_fill(ssd, false);
     ssd1306_send_data(ssd);
 }

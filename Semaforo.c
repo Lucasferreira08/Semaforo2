@@ -29,10 +29,14 @@ void vTrafficLightTask()
             mostrar_semaforo(VERDE, pio, sm);
             printf("Sinal: Verde\n");
             vTaskDelay(pdMS_TO_TICKS(5000));
+
+            if (get_dia_est()==NOITE) continue;
         
             mostrar_semaforo(AMARELO, pio, sm);
             printf("Sinal: Amarelo\n");
             vTaskDelay(pdMS_TO_TICKS(2000));
+
+            if (get_dia_est()==NOITE) continue;
 
             mostrar_semaforo(VERMELHO, pio, sm);
             printf("Sinal: Vermelho\n");
@@ -115,6 +119,22 @@ void vBuzzerTask()
     }
 }
 
+void vDisplayTask()
+{
+    ssd1306_t ssd;
+
+    display_init(&ssd);
+
+    while (true)
+    {
+        if (get_cor_sem()==VERMELHO) {desenhar_vermelho(&ssd);printf("Display: Vermelho\n");}
+        else if (get_cor_sem()==AMARELO) {desenhar_amarelo(&ssd);printf("Display: Amarelo\n");}
+        else if (get_cor_sem()==VERDE) {desenhar_verde(&ssd);printf("Display: Verde\n");}
+        else {desenhar_amarelo(&ssd);printf("Display: Amarelo\n");}
+        vTaskDelay(pdMS_TO_TICKS(500));  // Atualiza a cada segundo
+    }
+}
+
 void vButtonTask()
 {
     button_init();
@@ -134,22 +154,6 @@ void vButtonTask()
         
         lastButtonState = currentButtonState;
         vTaskDelay(pdMS_TO_TICKS(500));  // Polling a cada 20ms
-    }
-}
-
-void vDisplayTask()
-{
-    ssd1306_t ssd;
-
-    display_init(&ssd);
-
-    while (true)
-    {
-        if (get_cor_sem()==VERMELHO) {desenhar_vermelho(&ssd);printf("Display: Vermelho\n");}
-        else if (get_cor_sem()==AMARELO) {desenhar_amarelo(&ssd);printf("Display: Amarelo\n");}
-        else if (get_cor_sem()==VERDE) {desenhar_verde(&ssd);printf("Display: Verde\n");}
-        else {desenhar_amarelo(&ssd);printf("Display: Amarelo\n");}
-        vTaskDelay(pdMS_TO_TICKS(500));  // Atualiza a cada segundo
     }
 }
 

@@ -61,7 +61,6 @@ void mostrar_semaforo(EstadoSemaforo estado, PIO pio, uint sm)
 {
     uint32_t valor_led;
     
-    // Seleciona o desenho com base no estado do semáforo
     switch (estado) {
         case VERMELHO: // Vermelho
             desenho_pio(desenho_vermelho, valor_led, pio, sm, 0.1, 0.0, 0.0); // Vermelho (r=1.0)
