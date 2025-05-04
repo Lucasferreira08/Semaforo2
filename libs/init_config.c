@@ -2,6 +2,7 @@
 
 #include "pio_matrix.pio.h"
 #include "hardware/pwm.h"
+#include "hardware/clocks.h"
 
 uint pio_init(PIO pio)
 {
