@@ -9,7 +9,7 @@ set(PICO_BOARD pico_w CACHE STRING "Board type")
 
 include(pico_sdk_import.cmake)
 
-set(FREERTOS_KERNEL_PATH "C:/Users/lucas/Desktop/FreeRTOS-Kernel")
+set(FREERTOS_KERNEL_PATH "C:/Dev/FreeRTOS-Kernel")
 include(${FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
 
 project(Semaforo C CXX ASM)
